@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sky Reaper</title>
+
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="gameWrap">
+    <canvas id="gameCanvas" width="1280" height="720"></canvas>
+
+    <div id="hud">
+      <div class="hud-card">
+        <div class="hud-line">Score: <span id="scoreText">0</span></div>
+        <div class="hud-line">Lives: <span id="livesText">3</span></div>
+        <div class="hud-line">Bosses: <span id="levelText">0</span></div>
+        <div class="hud-line">Combo: <span id="comboText">x1</span></div>
+        <div class="hud-line">Power: <span id="powerText">●○○○○</span></div>
+        <div class="hud-line">Ammo: <span id="ammoText">I</span></div>
+        <div class="hud-line buff-row-hidden" id="buffRow">Buff: <span id="buffText"></span></div>
+        <div class="hud-line boss-health-line" id="bossHealthRow">Boss: <span id="bossHealthText">0%</span></div>
+        <div class="health-bar"><div class="health-fill" id="healthFill"></div></div>
+      </div>
+      <button id="pauseBtn">Pause</button>
+    </div>
+
+    <div id="bossAlert">⚠ BOSS INCOMING ⚠</div>
+    <div id="comboPopup"></div>
+
+    <div class="overlay" id="mobileBlockScreen">
+      <div class="panel mobile-block-panel">
+        <div class="title small-title">Desktop Only</div>
+        <div class="sub">
+          Sky Reaper is available only on desktop or laptop.<br />
+          Mobile devices are not supported for gameplay.
+        </div>
+      </div>
+    </div>
+
+    <div class="overlay active" id="loadingScreen">
+      <div class="panel loading-panel">
+        <img
+          src="assets/skyreaper_logo.png"
+          alt="Sky Reaper"
+          class="loading-logo"
+        />
+        <div class="loading-welcome">WELCOME TO</div>
+        <div class="title loading-title">SKY REAPER</div>
+        <div class="sub loading-sub">
+          Enter the fire. Destroy every enemy. Survive the boss waves.
+        </div>
+        <button class="menu-btn" id="continueBtn">Continue</button>
+      </div>
+    </div>
+
+    <div class="overlay" id="homeScreen">
+      <div class="panel">
+        <img src="assets/skyreaper_logo.png" alt="Sky Reaper" class="home-logo" />
+        
+        <div class="sub">
+          Top-down arcade shooter with staged enemies, boss waves, combo scoring, progressive difficulty, and multiple enemy fire patterns.
+        </div>
+
+        <button class="menu-btn" id="playBtn">Play</button>
+        <button class="menu-btn secondary" id="settingsBtn">Settings</button>
+        <button class="menu-btn secondary" id="aboutBtn">About</button>
+      </div>
+    </div>
+
+    <div class="overlay" id="settingsScreen">
+      <div class="panel">
+        <div class="title small-title">Settings</div>
+
+        <div class="setting-row">
+          <label for="musicVolume">Music Volume</label>
+          <div class="range-wrap">
+            <input id="musicVolume" type="range" min="0" max="1" step="0.01" value="0.5" />
+            <span id="musicValue">50%</span>
+          </div>
+        </div>
+
+        <div class="setting-row">
+          <label for="sfxVolume">SFX Volume</label>
+          <div class="range-wrap">
+            <input id="sfxVolume" type="range" min="0" max="1" step="0.01" value="0.7" />
+            <span id="sfxValue">70%</span>
+          </div>
+        </div>
+
+        <div class="setting-row">
+          <label for="difficulty">Difficulty</label>
+          <select id="difficulty">
+            <option value="easy">Easy</option>
+            <option value="medium" selected>Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+        </div>
+
+        <div class="setting-row toggle-row">
+          <label for="shootSfxToggle">Shooting Sound</label>
+          <label class="toggle-switch">
+            <input type="checkbox" id="shootSfxToggle" checked />
+            <span class="toggle-thumb"></span>
+          </label>
+        </div>
+
+        <button class="back-btn" id="settingsBackBtn">Back</button>
+      </div>
+    </div>
+
+    <div class="overlay" id="aboutScreen">
+      <div class="panel about-panel">
+        <div class="title small-title">About</div>
+
+        <div class="about-logo-row">
+          <img src="assets/skyreaper_logo.png" alt="Sky Reaper" class="about-logo" />
+        </div>
+
+        <div class="about-desc">
+          Sky Reaper is a top-down arcade shooter featuring four enemy classes, six boss waves with escalating attack patterns, combo-based scoring, power-ups, shield mechanics, and full difficulty scaling - all running in the browser with no dependencies.
+        </div>
+
+        <div class="about-section-title">🎮 Gameplay Features</div>
+        <div class="about-features">
+          <div class="about-feature">⚔️ 4 enemy types with unique fire modes</div>
+          <div class="about-feature">💀 Boss waves that grow with every kill</div>
+          <div class="about-feature">⚡ V-Shot, Shield & Ammo power-ups</div>
+          <div class="about-feature">🔥 Combo multiplier scoring system</div>
+          <div class="about-feature">🎯 Easy / Medium / Hard difficulty</div>
+          <div class="about-feature">🌟 Progressive difficulty scaling</div>
+        </div>
+
+        <div class="about-divider"></div>
+
+        <div class="about-section-title">👨‍💻 Developer</div>
+        <div class="about-dev">
+          <div class="about-dev-name">Jamshid Farook</div>
+          <div class="about-dev-role">Data Analyst</div>
+          <a class="about-portfolio-btn" href="https://jamshidfarook.github.io/" target="_blank" rel="noopener">
+            🌐 View Portfolio
+          </a>
+        </div>
+
+        <button class="back-btn" id="aboutBackBtn">← Back</button>
+      </div>
+    </div>
+
+    <div class="overlay" id="pauseScreen">
+      <div class="panel">
+        <div class="title small-title">Paused</div>
+        <button class="menu-btn" id="resumeBtn">Resume</button>
+
+        <div class="setting-row">
+          <label for="pauseMusicVolume">Music Volume</label>
+          <div class="range-wrap">
+            <input id="pauseMusicVolume" type="range" min="0" max="1" step="0.01" value="0.5" />
+            <span id="pauseMusicValue">50%</span>
+          </div>
+        </div>
+
+        <div class="setting-row">
+          <label for="pauseSfxVolume">SFX Volume</label>
+          <div class="range-wrap">
+            <input id="pauseSfxVolume" type="range" min="0" max="1" step="0.01" value="0.7" />
+            <span id="pauseSfxValue">70%</span>
+          </div>
+        </div>
+
+        <div class="setting-row toggle-row">
+          <label for="pauseShootSfxToggle">Shooting Sound</label>
+          <label class="toggle-switch">
+            <input type="checkbox" id="pauseShootSfxToggle" checked />
+            <span class="toggle-thumb"></span>
+          </label>
+        </div>
+
+        <button class="menu-btn secondary" id="exitBtn">Exit to Home</button>
+      </div>
+    </div>
+
+    <div class="overlay" id="gameOverScreen">
+      <div class="panel">
+        <div class="title small-title">Maximum Life Reached</div>
+        <div class="sub">Your plane has been destroyed. Choose what to do next.</div>
+        <button class="menu-btn" id="retryBtn">Retry</button>
+        <button class="menu-btn secondary" id="changeDifficultyBtn">Change Difficulty</button>
+        <button class="menu-btn secondary" id="gameOverHomeBtn">Exit to Home</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/player.js"></script>
+  <script src="js/enemies.js"></script>
+  <script src="js/boss.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/powerups.js"></script>
+  <script src="js/sfx.js"></script>
+  <script src="js/music.js"></script> 
+  <script src="js/game.js"></script>
+</body>
+</html>
